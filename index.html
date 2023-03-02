@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <script src="https://kit.fontawesome.com/0c2f246524.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins&family=Ruthie&display=swap" rel="stylesheet">
+    <title>Weather App</title>
+</head>
+<!--                                          BODY                                          -->
+<body>
+
+    <div id="main-weather">
+        <div id="inp">
+            <input type="text" placeholder="Enter a City name">
+            <button onclick="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div id="content"></div>
+    </div>
+    
+</body>
+<!--                                         SCRIPT                                         -->
+<script>
+
+    var body = document.getElementsByTagName("body")
+    var inp = document.querySelector("input")
+    var btn = document.querySelector("button")
+    var div=document.querySelectorAll("div")[2]
+
+    function search(){
+        var value = inp.value
+        console.log(value,"value");
+
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=a7cffca7c299e275d56fc2be97f4ad8b`)
+        .then(res=>res.json())
+        .then(data=>mydata(data))
+        .catch(err=>console.log(err,"test error"))
+    }
+    function mydata(data){
+        console.log(data,"test");
+        var weather=data.weather[0].main   
+        console.log(weather,"weather");
+        switch (weather) {
+            case "Haze":
+                document.body.style.backgroundImage=`url(./fog.jpg)`
+                break;
+            case "Mist":
+                document.body.style.backgroundImage=`url(./fog.jpg)`
+                break;
+            case "Fog":
+                document.body.style.backgroundImage=`url(./fog.jpg)`
+                break;
+            // case "scattered clouds":
+            //     document.body.style.backgroundImage=`url(./clouds.jpg)`
+            //     break;
+            case "Clouds":
+                document.body.style.backgroundImage=`url(./clouds.jpg)`
+                break;  
+            // case "broken clouds":
+            //     document.body.style.backgroundImage=`url(./clouds.jpg)`
+            //     break; 
+            case "Sunny":
+                document.body.style.backgroundImage=`url(./sun.jpg)`
+                break;
+            case "Rain":
+                document.body.style.backgroundImage=`url(./rain2.jpg)`
+                break;
+            // case "moderate rain":
+            //     document.body.style.backgroundImage=`url(./rain2.jpg)`
+            //     break;
+            // case "rainy":
+            //     document.body.style.backgroundImage=`url(./rain2.jpg)`
+            //     break;
+            case "Smoke":
+                document.body.style.backgroundImage=`url(./Smoke.jpg)`
+                break;
+            case "Snow":
+                document.body.style.backgroundImage=`url(./snow.jpg)`
+                break;
+            case "Storm":
+                document.body.style.backgroundImage=`url(./storm.jpg)`
+                break;
+            // case "stormy":
+            //     document.body.style.backgroundImage=`url(./storm.jpg)`
+            //     break;
+            case "Clear":
+                document.body.style.backgroundImage=`url(./clearsky.jpg)`
+                break;
+            case "Wind":
+                document.body.style.backgroundImage=`url(./wind.jpg)`
+                break;
+            // case "windy":
+            //     document.body.style.backgroundImage=`url(./wind.jpg)`
+            //     break;
+            default:
+                break;
+        }
+        div.innerHTML=""
+        div.innerHTML+=`
+        <div>
+            <h1>Weather in ${data.name}</h1>
+            <h2><span>Temprature</span> : ${data.main.temp}</h2>
+            <h2><span>Main</span> : ${data.weather[0].main}</h2>
+            <h2><span>Description</span> : ${data.weather[0].description}</h2>
+            <h2><span>Humidity</span> : ${data.main.humidity}</h2>
+            <h2><span>Wind Speed</span> : ${data.wind.speed}</h2>
+        </div>
+        `
+    }
+
+</script>
+
+</html>
